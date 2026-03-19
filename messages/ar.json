@@ -1,0 +1,161 @@
+{
+  "nav": {
+    "home": "الرئيسية",
+    "courses": "الدورات",
+    "dashboard": "لوحة التحكم",
+    "login": "تسجيل الدخول",
+    "register": "إنشاء حساب",
+    "logout": "تسجيل الخروج",
+    "admin": "الإدارة"
+  },
+  "auth": {
+    "loginTitle": "تسجيل الدخول",
+    "registerTitle": "إنشاء حساب جديد",
+    "email": "البريد الإلكتروني",
+    "password": "كلمة المرور",
+    "name": "الاسم الكامل",
+    "roleLabel": "أنا",
+    "roleStudent": "طالب",
+    "roleProfessor": "أستاذ",
+    "loginButton": "تسجيل الدخول",
+    "registerButton": "إنشاء حسابي",
+    "noAccount": "ليس لديك حساب؟",
+    "hasAccount": "لديك حساب بالفعل؟",
+    "signUpLink": "إنشاء حساب",
+    "signInLink": "تسجيل الدخول",
+    "errors": {
+      "invalidCredentials": "البريد الإلكتروني أو كلمة المرور غير صحيحة.",
+      "emailRequired": "البريد الإلكتروني مطلوب.",
+      "passwordRequired": "كلمة المرور مطلوبة.",
+      "nameRequired": "الاسم الكامل مطلوب.",
+      "passwordTooShort": "يجب أن تحتوي كلمة المرور على 8 أحرف على الأقل."
+    }
+  },
+  "catalog": {
+    "title": "دورات البرمجة",
+    "subtitle": "تعلم البرمجة مع دورات مصممة للطلاب المغاربة",
+    "search": "ابحث عن دورة...",
+    "allLanguages": "جميع اللغات",
+    "allLevels": "جميع المستويات",
+    "beginner": "مبتدئ",
+    "intermediate": "متوسط",
+    "noResults": "لم يتم العثور على دورات.",
+    "noResultsHint": "حاول تعديل الفلاتر أو البحث.",
+    "languages": {
+      "python": "بايثون",
+      "javascript": "جافاسكريبت",
+      "c": "C",
+      "java": "جافا",
+      "html_css": "HTML/CSS",
+      "sql": "SQL"
+    }
+  },
+  "course": {
+    "buyFor": "شراء بـ {price} درهم",
+    "continueLearning": "متابعة الدورة",
+    "paymentPending": "الدفع قيد التحقق",
+    "loginToBuy": "تسجيل الدخول للشراء",
+    "freePreview": "معاينة مجانية",
+    "locked": "مقفل",
+    "axis": "المحور {number}",
+    "axisNames": {
+      "1": "المقدمة",
+      "2": "النظرية",
+      "3": "التطبيق",
+      "4": "التركيب",
+      "5": "التقييم النهائي"
+    },
+    "professor": "الأستاذ",
+    "level": "المستوى",
+    "language": "لغة البرمجة",
+    "price": "السعر",
+    "objectives": "أهداف التعلم",
+    "prerequisites": "المتطلبات الأساسية",
+    "tableOfContents": "محتوى الدورة",
+    "paymentModal": {
+      "title": "تعليمات الدفع",
+      "cashplus": "الدفع عبر CashPlus",
+      "bankTransfer": "تحويل بنكي",
+      "iHavePaid": "لقد أجريت الدفع",
+      "cancel": "إلغاء",
+      "confirmMessage": "الدفع قيد التحقق. سيتم فتح الدورة فور التأكيد."
+    }
+  },
+  "learning": {
+    "progress": "التقدم",
+    "completed": "مكتمل",
+    "inProgress": "قيد التقدم",
+    "locked": "مقفل",
+    "quiz": {
+      "title": "اختبار — المحور {number}",
+      "submit": "تأكيد الإجابات",
+      "retry": "إعادة المحاولة",
+      "nextAxis": "الانتقال إلى المحور التالي",
+      "score": "النتيجة: {score}/{total}",
+      "percentage": "{percentage}%",
+      "passed": "أحسنت! لقد نجحت.",
+      "failed": "النتيجة غير كافية. يجب الحصول على 70% على الأقل للمتابعة.",
+      "courseComplete": "تهانينا! لقد أكملت الدورة.",
+      "question": "السؤال {current}/{total}",
+      "trueFalse": {
+        "true": "صحيح",
+        "false": "خطأ"
+      },
+      "fillBlank": "إجابتك"
+    },
+    "playground": {
+      "run": "تشغيل",
+      "loading": "تحميل بايثون...",
+      "output": "النتيجة",
+      "noExecution": "التنفيذ غير متاح في المتصفح لهذه اللغة. انسخ الكود إلى بيئة التطوير المحلية.",
+      "clearOutput": "مسح"
+    }
+  },
+  "dashboard": {
+    "title": "دوراتي",
+    "welcomeBack": "مرحباً بعودتك، {name}!",
+    "continueLearning": "متابعة",
+    "axis": "المحور {current}/{total}",
+    "completed": "مكتمل",
+    "noCourses": "لم تشترِ أي دورة بعد.",
+    "browseCoursesLink": "تصفح الدورات",
+    "meta": {
+      "title": "لوحة التحكم — IntelloNotes"
+    }
+  },
+  "admin": {
+    "payments": {
+      "title": "تأكيدات الدفع",
+      "pending": "قيد الانتظار",
+      "student": "الطالب",
+      "course": "الدورة",
+      "amount": "المبلغ",
+      "date": "التاريخ",
+      "confirm": "تأكيد",
+      "reject": "رفض",
+      "empty": "لا توجد مدفوعات معلقة.",
+      "confirmed": "تم تأكيد الدفع",
+      "rejected": "تم رفض الدفع"
+    },
+    "meta": {
+      "title": "الإدارة — IntelloNotes"
+    }
+  },
+  "common": {
+    "loading": "جارٍ التحميل...",
+    "error": "حدث خطأ.",
+    "retry": "إعادة المحاولة",
+    "save": "حفظ",
+    "cancel": "إلغاء",
+    "back": "رجوع",
+    "next": "التالي",
+    "close": "إغلاق",
+    "dh": "درهم"
+  },
+  "HomePage": {
+    "meta": {
+      "title": "IntelloNotes — تعلم البرمجة",
+      "description": "دورات برمجة للطلاب المغاربة. بايثون، جافاسكريبت، C، جافا والمزيد."
+    }
+  }
+}

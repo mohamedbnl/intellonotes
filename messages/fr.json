@@ -1,0 +1,161 @@
+{
+  "nav": {
+    "home": "Accueil",
+    "courses": "Cours",
+    "dashboard": "Tableau de bord",
+    "login": "Connexion",
+    "register": "Inscription",
+    "logout": "Déconnexion",
+    "admin": "Administration"
+  },
+  "auth": {
+    "loginTitle": "Se connecter",
+    "registerTitle": "Créer un compte",
+    "email": "Adresse e-mail",
+    "password": "Mot de passe",
+    "name": "Nom complet",
+    "roleLabel": "Je suis",
+    "roleStudent": "Étudiant",
+    "roleProfessor": "Professeur",
+    "loginButton": "Se connecter",
+    "registerButton": "Créer mon compte",
+    "noAccount": "Pas encore de compte ?",
+    "hasAccount": "Déjà un compte ?",
+    "signUpLink": "S'inscrire",
+    "signInLink": "Se connecter",
+    "errors": {
+      "invalidCredentials": "Email ou mot de passe incorrect.",
+      "emailRequired": "L'adresse e-mail est requise.",
+      "passwordRequired": "Le mot de passe est requis.",
+      "nameRequired": "Le nom complet est requis.",
+      "passwordTooShort": "Le mot de passe doit contenir au moins 8 caractères."
+    }
+  },
+  "catalog": {
+    "title": "Cours de programmation",
+    "subtitle": "Apprenez à coder avec des cours conçus pour les étudiants marocains",
+    "search": "Rechercher un cours...",
+    "allLanguages": "Tous les langages",
+    "allLevels": "Tous les niveaux",
+    "beginner": "Débutant",
+    "intermediate": "Intermédiaire",
+    "noResults": "Aucun cours trouvé.",
+    "noResultsHint": "Essayez de modifier vos filtres ou votre recherche.",
+    "languages": {
+      "python": "Python",
+      "javascript": "JavaScript",
+      "c": "C",
+      "java": "Java",
+      "html_css": "HTML/CSS",
+      "sql": "SQL"
+    }
+  },
+  "course": {
+    "buyFor": "Acheter pour {price} Dh",
+    "continueLearning": "Continuer le cours",
+    "paymentPending": "Paiement en cours de vérification",
+    "loginToBuy": "Se connecter pour acheter",
+    "freePreview": "Aperçu gratuit",
+    "locked": "Verrouillé",
+    "axis": "Axe {number}",
+    "axisNames": {
+      "1": "Introduction",
+      "2": "Théorie",
+      "3": "Pratique",
+      "4": "Synthèse",
+      "5": "Évaluation finale"
+    },
+    "professor": "Professeur",
+    "level": "Niveau",
+    "language": "Langage",
+    "price": "Prix",
+    "objectives": "Objectifs d'apprentissage",
+    "prerequisites": "Prérequis",
+    "tableOfContents": "Programme du cours",
+    "paymentModal": {
+      "title": "Instructions de paiement",
+      "cashplus": "Paiement CashPlus",
+      "bankTransfer": "Virement bancaire",
+      "iHavePaid": "J'ai effectué le paiement",
+      "cancel": "Annuler",
+      "confirmMessage": "Votre paiement est en cours de vérification. Le cours sera débloqué dès confirmation."
+    }
+  },
+  "learning": {
+    "progress": "Progression",
+    "completed": "Terminé",
+    "inProgress": "En cours",
+    "locked": "Verrouillé",
+    "quiz": {
+      "title": "Quiz — Axe {number}",
+      "submit": "Valider mes réponses",
+      "retry": "Réessayer",
+      "nextAxis": "Passer à l'axe suivant",
+      "score": "Score : {score}/{total}",
+      "percentage": "{percentage}%",
+      "passed": "Bravo ! Vous avez réussi.",
+      "failed": "Score insuffisant. Vous devez obtenir au moins 70% pour continuer.",
+      "courseComplete": "Félicitations ! Vous avez terminé le cours.",
+      "question": "Question {current}/{total}",
+      "trueFalse": {
+        "true": "Vrai",
+        "false": "Faux"
+      },
+      "fillBlank": "Votre réponse"
+    },
+    "playground": {
+      "run": "Exécuter",
+      "loading": "Chargement de Python...",
+      "output": "Sortie",
+      "noExecution": "Exécution non disponible dans le navigateur pour ce langage. Copiez le code dans votre IDE local.",
+      "clearOutput": "Effacer"
+    }
+  },
+  "dashboard": {
+    "title": "Mes cours",
+    "welcomeBack": "Bon retour, {name} !",
+    "continueLearning": "Continuer",
+    "axis": "Axe {current}/{total}",
+    "completed": "Terminé",
+    "noCourses": "Vous n'avez pas encore acheté de cours.",
+    "browseCoursesLink": "Parcourir les cours",
+    "meta": {
+      "title": "Mon tableau de bord — IntelloNotes"
+    }
+  },
+  "admin": {
+    "payments": {
+      "title": "Confirmations de paiement",
+      "pending": "En attente",
+      "student": "Étudiant",
+      "course": "Cours",
+      "amount": "Montant",
+      "date": "Date",
+      "confirm": "Confirmer",
+      "reject": "Rejeter",
+      "empty": "Aucun paiement en attente.",
+      "confirmed": "Paiement confirmé",
+      "rejected": "Paiement rejeté"
+    },
+    "meta": {
+      "title": "Administration — IntelloNotes"
+    }
+  },
+  "common": {
+    "loading": "Chargement...",
+    "error": "Une erreur est survenue.",
+    "retry": "Réessayer",
+    "save": "Enregistrer",
+    "cancel": "Annuler",
+    "back": "Retour",
+    "next": "Suivant",
+    "close": "Fermer",
+    "dh": "Dh"
+  },
+  "HomePage": {
+    "meta": {
+      "title": "IntelloNotes — Apprenez à programmer",
+      "description": "Cours de programmation pour étudiants marocains. Python, JavaScript, C, Java et plus encore."
+    }
+  }
+}
