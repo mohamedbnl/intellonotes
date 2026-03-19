@@ -1,9 +1,13 @@
-// Root layout — next-intl handles locale routing via middleware
-// All actual content is in src/app/[locale]/layout.tsx
+// Root layout — minimal shell; locale-specific layout in [locale]/layout.tsx
+// next-intl middleware redirects all requests to /[locale]/* automatically
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  return children;
+  return (
+    <html>
+      <body>{children}</body>
+    </html>
+  );
 }

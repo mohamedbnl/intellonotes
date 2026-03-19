@@ -43,7 +43,7 @@ const config: Config = {
       },
       fontFamily: {
         sans: ["var(--font-inter)", "var(--font-noto-arabic)", "sans-serif"],
-        mono: ["var(--font-geist-mono)", "monospace"],
+        mono: ["ui-monospace", "SFMono-Regular", "Menlo", "monospace"],
       },
     },
   },
