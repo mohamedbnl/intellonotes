@@ -14,13 +14,16 @@ $$ LANGUAGE sql SECURITY DEFINER STABLE;
 -- ============================================================
 
 -- Anyone authenticated can read basic profiles
+-- Users can read their own full profile
 CREATE POLICY "users_select_own"
   ON public.users FOR SELECT
   USING (auth.uid() = id);
 
+-- Anyone can read public profile fields (professors visible in catalog)
+-- Email is NOT exposed here — handled at application layer via column selection
 CREATE POLICY "users_select_public_profiles"
   ON public.users FOR SELECT
-  USING (true);  -- Public profiles (name, avatar) visible to all
+  USING (role IN ('professor', 'admin'));
 
 -- Users can update their own profile
 CREATE POLICY "users_update_own"

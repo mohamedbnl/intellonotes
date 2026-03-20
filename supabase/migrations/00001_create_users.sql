@@ -29,10 +29,10 @@ BEGIN
     NEW.id,
     NEW.email,
     COALESCE(NEW.raw_user_meta_data->>'name', split_part(NEW.email, '@', 1)),
-    COALESCE(
-      (NEW.raw_user_meta_data->>'role')::public.user_role,
-      'student'::public.user_role
-    )
+    CASE NEW.raw_user_meta_data->>'role'
+      WHEN 'professor' THEN 'professor'::public.user_role
+      ELSE 'student'::public.user_role
+    END
   )
   ON CONFLICT (id) DO NOTHING;
   RETURN NEW;

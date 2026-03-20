@@ -10,13 +10,8 @@ CREATE TABLE IF NOT EXISTS public.lessons (
   created_at    TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 
--- Composite index for ordered axis fetching
-CREATE INDEX idx_lessons_course_axis_order
-  ON public.lessons(course_id, axis_number, display_order);
-
--- Enforce one lesson record per axis per course (main lesson)
--- Multiple display_order values allowed for sub-lessons within an axis
-CREATE UNIQUE INDEX idx_lessons_course_axis_order_unique
+-- Unique composite index (also serves as lookup index for ordered axis fetching)
+CREATE UNIQUE INDEX idx_lessons_course_axis_order
   ON public.lessons(course_id, axis_number, display_order);
 
 ALTER TABLE public.lessons ENABLE ROW LEVEL SECURITY;
