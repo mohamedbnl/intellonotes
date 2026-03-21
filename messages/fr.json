@@ -85,7 +85,13 @@
       "bankTransfer": "Virement bancaire",
       "iHavePaid": "J'ai effectué le paiement",
       "cancel": "Annuler",
-      "confirmMessage": "Votre paiement est en cours de vérification. Le cours sera débloqué dès confirmation."
+      "confirmMessage": "Votre paiement est en cours de vérification. Le cours sera débloqué dès confirmation.",
+      "errors": {
+        "alreadyPurchased": "Vous avez déjà un achat en cours pour ce cours.",
+        "forbidden": "Seuls les étudiants peuvent acheter des cours.",
+        "courseNotFound": "Ce cours n'est plus disponible.",
+        "generic": "Une erreur est survenue. Veuillez réessayer."
+      }
     }
   },
   "learning": {

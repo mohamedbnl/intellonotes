@@ -70,14 +70,22 @@ export function PurchaseButton({
     );
   }
 
+  const errorMessages: Record<string, string> = {
+    alreadyPurchased: t("paymentModal.errors.alreadyPurchased"),
+    forbidden: t("paymentModal.errors.forbidden"),
+    courseNotFound: t("paymentModal.errors.courseNotFound"),
+    generic: t("paymentModal.errors.generic"),
+  };
+
   function handleConfirmPayment() {
     setError(null);
     startTransition(async () => {
       const result = await createPurchase(courseId, price, locale);
       if (result.error) {
-        setError(result.error);
+        setError(errorMessages[result.error] ?? errorMessages.generic);
       } else {
         setSubmitted(true);
+        router.refresh(); // re-fetch server component so status updates to "pending"
       }
     });
   }
@@ -93,7 +101,12 @@ export function PurchaseButton({
         {t("buyFor", { price })}
       </Button>
 
-      <Modal isOpen={isModalOpen} onClose={closeModal} title={t("paymentModal.title")}>
+      <Modal
+        isOpen={isModalOpen}
+        onClose={closeModal}
+        title={t("paymentModal.title")}
+        closeLabel={t("paymentModal.cancel")}
+      >
         {submitted ? (
           <div className="text-center py-4 space-y-4">
             <p className="text-gray-700">{t("paymentModal.confirmMessage")}</p>

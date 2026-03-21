@@ -48,37 +48,39 @@ export default async function CourseDetailPage({
 
   const supabase = await createClient();
 
-  // Fetch course with professor info
-  const { data: rawCourse } = await supabase
-    .from("courses")
-    .select(
-      "id, title, description, language, level, price, objectives, prerequisites, professor:users!professor_id(name, bio, expertise, avatar_url)"
-    )
-    .eq("id", courseId)
-    .eq("status", "approved")
-    .single();
+  // Parallelise independent fetches
+  const [
+    { data: rawCourse },
+    { data: lessonsData },
+    {
+      data: { user },
+    },
+  ] = await Promise.all([
+    supabase
+      .from("courses")
+      .select(
+        "id, title, description, language, level, price, objectives, prerequisites, professor:users!professor_id(name, bio, expertise, avatar_url)"
+      )
+      .eq("id", courseId)
+      .eq("status", "approved")
+      .single(),
+    supabase
+      .from("lessons")
+      .select("id, title, axis_number, display_order")
+      .eq("course_id", courseId)
+      .order("axis_number", { ascending: true })
+      .order("display_order", { ascending: true }),
+    supabase.auth.getUser(),
+  ]);
 
   if (!rawCourse) {
     notFound();
   }
 
   const course = rawCourse as unknown as CourseDetailRow;
-
-  // Fetch lessons ordered by axis then display order
-  const { data: lessonsData } = await supabase
-    .from("lessons")
-    .select("id, title, axis_number, display_order")
-    .eq("course_id", courseId)
-    .order("axis_number", { ascending: true })
-    .order("display_order", { ascending: true });
-
   const lessons = (lessonsData ?? []) as LessonRow[];
 
-  // Check purchase status for the logged-in user
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
+  // Purchase status depends on user — sequential is unavoidable here
   let purchaseStatus: PurchaseStatus | null = null;
   if (user) {
     const { data: purchase } = (await supabase
@@ -152,13 +154,13 @@ export default async function CourseDetailPage({
           )}
 
           {/* Learning objectives */}
-          {course.objectives.length > 0 && (
+          {(course.objectives ?? []).length > 0 && (
             <section>
               <h2 className="text-lg font-semibold text-gray-900 mb-3">
                 {t("objectives")}
               </h2>
               <ul className="space-y-2">
-                {course.objectives.map((obj, i) => (
+                {(course.objectives ?? []).map((obj, i) => (
                   <li key={i} className="flex items-start gap-2 text-sm text-gray-700">
                     <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-[var(--color-primary-600)] shrink-0" />
                     {obj}
@@ -169,13 +171,13 @@ export default async function CourseDetailPage({
           )}
 
           {/* Prerequisites */}
-          {course.prerequisites.length > 0 && (
+          {(course.prerequisites ?? []).length > 0 && (
             <section>
               <h2 className="text-lg font-semibold text-gray-900 mb-3">
                 {t("prerequisites")}
               </h2>
               <ul className="space-y-2">
-                {course.prerequisites.map((prereq, i) => (
+                {(course.prerequisites ?? []).map((prereq, i) => (
                   <li key={i} className="flex items-start gap-2 text-sm text-gray-700">
                     <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-gray-400 shrink-0" />
                     {prereq}

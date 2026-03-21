@@ -24,12 +24,26 @@ export async function createPurchase(
     return { error: "forbidden" };
   }
 
-  const { professorCommission, platformCommission } = calculateCommission(price);
+  // Re-fetch price from DB — never trust client-provided price
+  const { data: courseData } = (await supabase
+    .from("courses")
+    .select("price")
+    .eq("id", courseId)
+    .eq("status", "approved")
+    .single()) as { data: { price: number } | null; error: unknown };
+
+  if (!courseData) {
+    return { error: "courseNotFound" };
+  }
+
+  const { professorCommission, platformCommission } = calculateCommission(
+    courseData.price
+  );
 
   const { error } = (await supabase.from("purchases").insert({
     student_id: user.id,
     course_id: courseId,
-    amount_paid: price,
+    amount_paid: courseData.price,
     professor_commission: professorCommission,
     platform_commission: platformCommission,
     status: "pending",

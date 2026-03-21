@@ -7,10 +7,11 @@ interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
   title: string;
+  closeLabel?: string;
   children: React.ReactNode;
 }
 
-export function Modal({ isOpen, onClose, title, children }: ModalProps) {
+export function Modal({ isOpen, onClose, title, closeLabel = "Close", children }: ModalProps) {
   useEffect(() => {
     if (!isOpen) return;
     function handleKeyDown(e: KeyboardEvent) {
@@ -43,7 +44,7 @@ export function Modal({ isOpen, onClose, title, children }: ModalProps) {
             type="button"
             onClick={onClose}
             className="text-gray-400 hover:text-gray-600 transition-colors"
-            aria-label="Fermer"
+            aria-label={closeLabel}
           >
             <X size={20} />
           </button>
