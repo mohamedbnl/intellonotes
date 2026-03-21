@@ -9,11 +9,12 @@ export async function getUserRole(
   supabase: SupabaseClient,
   userId: string
 ): Promise<UserRole | null> {
-  const { data } = (await supabase
+  const { data, error } = (await supabase
     .from("users")
     .select("role")
     .eq("id", userId)
-    .single()) as { data: { role: UserRole } | null; error: unknown };
+    .single()) as { data: { role: UserRole } | null; error: { message: string } | null };
 
+  if (error) return null;
   return data?.role ?? null;
 }

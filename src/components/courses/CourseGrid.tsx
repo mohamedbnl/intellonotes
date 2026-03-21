@@ -3,6 +3,17 @@ import { createClient } from "@/lib/supabase/server";
 import { CourseCard, type CourseCardData } from "./CourseCard";
 import type { CourseLanguage, CourseLevel } from "@/types/database";
 
+// Supabase returns the joined row in this shape
+type CourseQueryRow = {
+  id: string;
+  title: string;
+  description: string;
+  language: CourseLanguage;
+  level: CourseLevel;
+  price: number;
+  professor: { name: string; avatar_url: string | null } | null;
+};
+
 interface CourseGridProps {
   q?: string;
   language?: string;
@@ -29,7 +40,7 @@ export async function CourseGrid({ q, language, level }: CourseGridProps) {
   }
 
   const { data } = await query;
-  const courses = (data ?? []) as unknown as CourseCardData[];
+  const courses = (data ?? []) as CourseQueryRow[] as CourseCardData[];
 
   if (courses.length === 0) {
     return <EmptyState />;

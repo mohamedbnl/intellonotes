@@ -20,7 +20,7 @@ export default async function DashboardPage({
     redirect(`/${locale}/auth/login`);
   }
 
-  const role = await getUserRole(supabase, user.id);
+  const role = await getUserRole(supabase, user!.id);
 
   if (role !== "student") {
     redirect(`/${locale}`);

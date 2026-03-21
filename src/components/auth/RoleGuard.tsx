@@ -26,7 +26,8 @@ export function RoleGuard({
       router.push("/auth/login");
       return;
     }
-    if (role && !allowedRoles.includes(role)) {
+    // Redirect if role is null (fetch failed) or not in the allowed list
+    if (!role || !allowedRoles.includes(role)) {
       router.push(redirectTo);
     }
   }, [user, role, isLoading, allowedRoles, redirectTo, router]);

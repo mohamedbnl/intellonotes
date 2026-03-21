@@ -20,7 +20,8 @@ export default async function AdminLayout({
     redirect(`/${locale}/auth/login`);
   }
 
-  const role = await getUserRole(supabase, user.id);
+  // user is non-null here — redirect() above throws internally in Next.js
+  const role = await getUserRole(supabase, user!.id);
 
   if (role !== "admin") {
     redirect(`/${locale}`);
