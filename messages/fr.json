@@ -23,12 +23,16 @@
     "hasAccount": "Déjà un compte ?",
     "signUpLink": "S'inscrire",
     "signInLink": "Se connecter",
+    "checkEmailTitle": "Vérifiez votre boîte e-mail",
+    "checkEmailMessage": "Un lien de confirmation a été envoyé à {email}",
     "errors": {
       "invalidCredentials": "Email ou mot de passe incorrect.",
       "emailRequired": "L'adresse e-mail est requise.",
       "passwordRequired": "Le mot de passe est requis.",
       "nameRequired": "Le nom complet est requis.",
-      "passwordTooShort": "Le mot de passe doit contenir au moins 8 caractères."
+      "passwordTooShort": "Le mot de passe doit contenir au moins 8 caractères.",
+      "emailAlreadyRegistered": "Cette adresse e-mail est déjà utilisée.",
+      "generic": "Une erreur est survenue. Veuillez réessayer."
     }
   },
   "catalog": {

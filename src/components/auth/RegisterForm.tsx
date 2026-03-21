@@ -44,7 +44,11 @@ export function RegisterForm() {
     setIsLoading(false);
 
     if (authError) {
-      setError(authError.message);
+      if (authError.message.toLowerCase().includes("already registered")) {
+        setError(t("errors.emailAlreadyRegistered"));
+      } else {
+        setError(t("errors.generic"));
+      }
       return;
     }
 
@@ -54,11 +58,9 @@ export function RegisterForm() {
   if (success) {
     return (
       <div className="rounded-xl bg-green-50 border border-green-200 p-6 text-center">
-        <p className="text-green-800 font-medium">
-          Vérifiez votre boîte e-mail pour confirmer votre inscription.
-        </p>
+        <p className="text-green-800 font-medium">{t("checkEmailTitle")}</p>
         <p className="text-green-700 text-sm mt-2">
-          Un lien de confirmation a été envoyé à <strong>{email}</strong>
+          {t("checkEmailMessage", { email })}
         </p>
       </div>
     );

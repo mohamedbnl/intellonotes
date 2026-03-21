@@ -28,24 +28,19 @@ export function LoginForm() {
     setIsLoading(true);
     const supabase = createClient();
 
-    const { error: authError } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
+    try {
+      const { data, error: authError } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
 
-    if (authError) {
-      setIsLoading(false);
-      setError(t("errors.invalidCredentials"));
-      return;
-    }
+      if (authError || !data.user) {
+        setError(t("errors.invalidCredentials"));
+        return;
+      }
 
-    // Fetch role and redirect
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
-
-    if (user) {
-      const role = await getUserRole(supabase, user.id);
+      // Use user from sign-in response — no extra getUser() round-trip needed
+      const role = await getUserRole(supabase, data.user.id);
       if (role === "admin") {
         router.push("/admin/payments");
       } else if (role === "professor") {
@@ -53,6 +48,8 @@ export function LoginForm() {
       } else {
         router.push("/dashboard");
       }
+    } finally {
+      setIsLoading(false);
     }
   }
 

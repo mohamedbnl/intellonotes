@@ -39,7 +39,8 @@ export function RoleGuard({
     );
   }
 
-  if (!user || (role && !allowedRoles.includes(role))) {
+  // Also block if role is null (DB fetch failed) — fail closed, not open
+  if (!user || !role || !allowedRoles.includes(role)) {
     return null;
   }
 

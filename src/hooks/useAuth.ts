@@ -22,30 +22,13 @@ export function useAuth(): AuthState {
   useEffect(() => {
     const supabase = createClient();
 
-    async function fetchRole(userId: string): Promise<UserRole | null> {
-      return getUserRole(supabase, userId);
-    }
-
-    async function init() {
-      const {
-        data: { user },
-      } = await supabase.auth.getUser();
-
-      if (user) {
-        const role = await fetchRole(user.id);
-        setState({ user, role, isLoading: false });
-      } else {
-        setState({ user: null, role: null, isLoading: false });
-      }
-    }
-
-    init();
-
+    // onAuthStateChange fires immediately with INITIAL_SESSION —
+    // no need for a separate init() call, which would cause a race condition.
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange(async (_event, session) => {
       if (session?.user) {
-        const role = await fetchRole(session.user.id);
+        const role = await getUserRole(supabase, session.user.id);
         setState({ user: session.user, role, isLoading: false });
       } else {
         setState({ user: null, role: null, isLoading: false });
