@@ -1,11 +1,13 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useState, useTransition, useCallback } from "react";
 import { useTranslations } from "next-intl";
 import { useLocale } from "next-intl";
 import { useRouter } from "@i18n/navigation";
 import { Button } from "@/components/ui/Button";
 import { Modal } from "@/components/ui/Modal";
+import { Toast, type ToastData } from "@/components/ui/Toast";
+import { useRealtimePurchase } from "@/hooks/useRealtimePurchase";
 import { createPurchase } from "@/lib/actions/purchase";
 import type { PurchaseStatus } from "@/types/database";
 
@@ -13,61 +15,51 @@ interface PurchaseButtonProps {
   courseId: string;
   price: number;
   purchaseStatus: PurchaseStatus | null;
-  isLoggedIn: boolean;
+  /** Pass the authenticated user's ID, or null if not logged in. */
+  userId: string | null;
 }
 
 export function PurchaseButton({
   courseId,
   price,
   purchaseStatus,
-  isLoggedIn,
+  userId,
 }: PurchaseButtonProps) {
   const t = useTranslations("course");
   const locale = useLocale();
   const router = useRouter();
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isPending, startTransition] = useTransition();
-  const [error, setError] = useState<string | null>(null);
+  const [formError, setFormError] = useState<string | null>(null);
   const [submitted, setSubmitted] = useState(false);
+  const [toast, setToast] = useState<ToastData | null>(null);
+
+  // Realtime subscription — active only while status is pending.
+  // Passing null as userId disables the channel entirely.
+  const handleStatusChange = useCallback(
+    (status: PurchaseStatus) => {
+      if (status === "confirmed") {
+        setToast({ message: t("purchaseConfirmed"), variant: "success" });
+        router.refresh();
+      } else if (status === "rejected") {
+        setToast({ message: t("purchaseRejected"), variant: "error" });
+        router.refresh();
+      }
+    },
+    [t, router]
+  );
+
+  useRealtimePurchase(
+    purchaseStatus === "pending" ? userId : null,
+    courseId,
+    handleStatusChange
+  );
 
   function closeModal() {
     setIsModalOpen(false);
     setSubmitted(false);
-    setError(null);
-  }
-
-  if (purchaseStatus === "confirmed") {
-    return (
-      <Button
-        variant="primary"
-        size="lg"
-        className="w-full"
-        onClick={() => router.push(`/courses/${courseId}/learn`)}
-      >
-        {t("continueLearning")}
-      </Button>
-    );
-  }
-
-  if (purchaseStatus === "pending") {
-    return (
-      <Button variant="secondary" size="lg" className="w-full" disabled>
-        {t("paymentPending")}
-      </Button>
-    );
-  }
-
-  if (!isLoggedIn) {
-    return (
-      <Button
-        variant="primary"
-        size="lg"
-        className="w-full"
-        onClick={() => router.push("/auth/login")}
-      >
-        {t("loginToBuy")}
-      </Button>
-    );
+    setFormError(null);
   }
 
   const errorMessages: Record<string, string> = {
@@ -78,28 +70,63 @@ export function PurchaseButton({
   };
 
   function handleConfirmPayment() {
-    setError(null);
+    setFormError(null);
     startTransition(async () => {
       const result = await createPurchase(courseId, price, locale);
       if (result.error) {
-        setError(errorMessages[result.error] ?? errorMessages.generic);
+        setFormError(errorMessages[result.error] ?? errorMessages.generic);
       } else {
         setSubmitted(true);
-        router.refresh(); // re-fetch server component so status updates to "pending"
+        router.refresh(); // update server component so status becomes "pending"
       }
     });
   }
 
+  const isLoggedIn = userId !== null;
+
   return (
     <>
-      <Button
-        variant="primary"
-        size="lg"
-        className="w-full"
-        onClick={() => setIsModalOpen(true)}
-      >
-        {t("buyFor", { price })}
-      </Button>
+      {/* Toast notification for Realtime status changes */}
+      {toast && (
+        <Toast
+          message={toast.message}
+          variant={toast.variant}
+          onDismiss={() => setToast(null)}
+        />
+      )}
+
+      {purchaseStatus === "confirmed" ? (
+        <Button
+          variant="primary"
+          size="lg"
+          className="w-full"
+          onClick={() => router.push(`/courses/${courseId}/learn`)}
+        >
+          {t("continueLearning")}
+        </Button>
+      ) : purchaseStatus === "pending" ? (
+        <Button variant="secondary" size="lg" className="w-full" disabled>
+          {t("paymentPending")}
+        </Button>
+      ) : !isLoggedIn ? (
+        <Button
+          variant="primary"
+          size="lg"
+          className="w-full"
+          onClick={() => router.push("/auth/login")}
+        >
+          {t("loginToBuy")}
+        </Button>
+      ) : (
+        <Button
+          variant="primary"
+          size="lg"
+          className="w-full"
+          onClick={() => setIsModalOpen(true)}
+        >
+          {t("buyFor", { price })}
+        </Button>
+      )}
 
       <Modal
         isOpen={isModalOpen}
@@ -134,12 +161,10 @@ export function PurchaseButton({
               </p>
             </div>
 
-            <p className="text-center text-xl font-bold text-gray-900">
-              {price} Dh
-            </p>
+            <p className="text-center text-xl font-bold text-gray-900">{price} Dh</p>
 
-            {error && (
-              <p className="text-sm text-red-600 text-center">{error}</p>
+            {formError && (
+              <p className="text-sm text-red-600 text-center">{formError}</p>
             )}
 
             <div className="flex gap-3 pt-2">

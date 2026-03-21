@@ -79,6 +79,8 @@
     "lessonsLabel": "leçons",
     "lockedAxisMessage": "Achetez ce cours pour accéder à cet axe.",
     "noLessonsYet": "Aucune leçon pour le moment.",
+    "purchaseConfirmed": "Votre cours a été débloqué ! Bonne apprentissage.",
+    "purchaseRejected": "Votre paiement a été rejeté. Veuillez contacter le support.",
     "paymentModal": {
       "title": "Instructions de paiement",
       "cashplus": "Paiement CashPlus",

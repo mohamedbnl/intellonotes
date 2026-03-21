@@ -205,7 +205,7 @@ export default async function CourseDetailPage({
               courseId={courseId}
               price={course.price}
               purchaseStatus={purchaseStatus}
-              isLoggedIn={!!user}
+              userId={user?.id ?? null}
             />
 
             <div className="pt-4 border-t border-gray-100 space-y-3 text-sm">

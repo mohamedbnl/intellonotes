@@ -79,6 +79,8 @@
     "lessonsLabel": "دروس",
     "lockedAxisMessage": "اشترِ هذه الدورة للوصول إلى هذا المحور.",
     "noLessonsYet": "لا توجد دروس حاليًا.",
+    "purchaseConfirmed": "تم فتح دورتك! تعلم جيداً.",
+    "purchaseRejected": "تم رفض دفعتك. يرجى التواصل مع الدعم.",
     "paymentModal": {
       "title": "تعليمات الدفع",
       "cashplus": "الدفع عبر CashPlus",
