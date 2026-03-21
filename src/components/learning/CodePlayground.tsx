@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { useTranslations } from "next-intl";
 import dynamic from "next/dynamic";
 import { Button } from "@/components/ui/Button";
@@ -26,12 +26,12 @@ const MONACO_LANGUAGE: Record<CourseLanguage, string> = {
 };
 
 const DEFAULT_CODE: Partial<Record<CourseLanguage, string>> = {
-  python: 'print("Bonjour le monde !")',
-  javascript: 'console.log("Bonjour le monde !");',
-  c: '#include <stdio.h>\n\nint main() {\n    printf("Bonjour le monde !\\n");\n    return 0;\n}',
-  java: 'public class Main {\n    public static void main(String[] args) {\n        System.out.println("Bonjour le monde !");\n    }\n}',
-  sql: "SELECT 'Bonjour le monde !' AS message;",
-  html_css: "<!DOCTYPE html>\n<html>\n<body>\n  <h1>Bonjour le monde !</h1>\n</body>\n</html>",
+  python: 'print("Hello, World!")',
+  javascript: 'console.log("Hello, World!");',
+  c: '#include <stdio.h>\n\nint main() {\n    printf("Hello, World!\\n");\n    return 0;\n}',
+  java: 'public class Main {\n    public static void main(String[] args) {\n        System.out.println("Hello, World!");\n    }\n}',
+  sql: "SELECT 'Hello, World!' AS message;",
+  html_css: "<!DOCTYPE html>\n<html>\n<body>\n  <h1>Hello, World!</h1>\n</body>\n</html>",
 };
 
 function runJavaScript(code: string): { output: string; error: string | null } {
@@ -57,11 +57,24 @@ function runJavaScript(code: string): { output: string; error: string | null } {
 
 interface CodePlaygroundProps {
   language: CourseLanguage;
+  courseId: string;
 }
 
-export default function CodePlayground({ language }: CodePlaygroundProps) {
+export default function CodePlayground({ language, courseId }: CodePlaygroundProps) {
   const t = useTranslations("learning.playground");
-  const [code, setCode] = useState(DEFAULT_CODE[language] ?? "");
+  const storageKey = `intellonotes-code-${courseId}-${language}`;
+  const [code, setCode] = useState(() => {
+    if (typeof window === "undefined") return DEFAULT_CODE[language] ?? "";
+    return localStorage.getItem(storageKey) ?? DEFAULT_CODE[language] ?? "";
+  });
+
+  // Debounced save to localStorage (500ms after last keystroke)
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      localStorage.setItem(storageKey, code);
+    }, 500);
+    return () => clearTimeout(timer);
+  }, [code, storageKey]);
   const [output, setOutput] = useState<string | null>(null);
   const [runError, setRunError] = useState<string | null>(null);
   const [isRunning, setIsRunning] = useState(false);

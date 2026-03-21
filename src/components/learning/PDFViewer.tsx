@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Document, Page, pdfjs } from "react-pdf";
 import "react-pdf/dist/Page/AnnotationLayer.css";
 import "react-pdf/dist/Page/TextLayer.css";
@@ -22,8 +22,17 @@ export default function PDFViewer({ url }: PDFViewerProps) {
   const [page, setPage] = useState(1);
   const [containerWidth, setContainerWidth] = useState(700);
 
-  const containerRef = useCallback((node: HTMLDivElement | null) => {
-    if (node) setContainerWidth(node.clientWidth);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+    const observer = new ResizeObserver((entries) => {
+      const width = entries[0]?.contentRect.width;
+      if (width) setContainerWidth(width);
+    });
+    observer.observe(el);
+    return () => observer.disconnect();
   }, []);
 
   function onDocumentLoad({ numPages }: { numPages: number }) {
@@ -72,7 +81,7 @@ export default function PDFViewer({ url }: PDFViewerProps) {
 
       {/* Navigation */}
       {numPages && numPages > 1 && (
-        <div className="flex items-center justify-center gap-3 px-4 py-2 bg-gray-50 border-t border-gray-200">
+        <div dir="ltr" className="flex items-center justify-center gap-3 px-4 py-2 bg-gray-50 border-t border-gray-200">
           <Button
             variant="ghost"
             size="sm"

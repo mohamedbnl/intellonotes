@@ -7,6 +7,7 @@ import { Link } from "@i18n/navigation";
 import { useLocale } from "next-intl";
 import { ProgressSidebar } from "./ProgressSidebar";
 import { QuizEngine } from "./QuizEngine";
+import { SectionErrorBoundary } from "./SectionErrorBoundary";
 import { saveQuizResult } from "@/lib/actions/progress";
 import { EXECUTABLE_LANGUAGES } from "@/lib/constants";
 import type { CourseLanguage } from "@/types/database";
@@ -79,6 +80,7 @@ export function LearningLayout({
 }: LearningLayoutProps) {
   const t = useTranslations("learning");
   const tCourse = useTranslations("course");
+  const tCommon = useTranslations("common");
   const locale = useLocale();
 
   // Local state — updated optimistically after quiz completion
@@ -96,6 +98,11 @@ export function LearningLayout({
       if (autoAdvanceTimerRef.current) clearTimeout(autoAdvanceTimerRef.current);
     };
   }, []);
+
+  // Scroll to top whenever the selected axis changes
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, [selectedAxis]);
 
   const axisLessons = lessons.filter((l) => l.axis_number === selectedAxis);
   const axisQuiz = quizzesByAxis[selectedAxis] ?? null;
@@ -176,7 +183,7 @@ export function LearningLayout({
             href={`/courses/${courseId}`}
             className="text-sm text-gray-500 hover:text-gray-700 shrink-0"
           >
-            ←
+            {locale === 'ar' ? '\u2192' : '\u2190'}
           </Link>
           <h1 className="font-semibold text-gray-900 text-sm truncate">
             {courseTitle}
@@ -209,7 +216,11 @@ export function LearningLayout({
           </div>
 
           {/* PDF viewer */}
-          {pdfUrl && <PDFViewer url={pdfUrl} />}
+          {pdfUrl && (
+            <SectionErrorBoundary fallbackMessage={tCommon("error")} retryLabel={tCommon("retry")}>
+              <PDFViewer url={pdfUrl} />
+            </SectionErrorBoundary>
+          )}
 
           {/* Lesson content */}
           {axisLessons.length > 0 ? (
@@ -232,28 +243,34 @@ export function LearningLayout({
           )}
 
           {/* Code playground */}
-          {canRunCode && <CodePlayground language={language} />}
+          {canRunCode && (
+            <SectionErrorBoundary fallbackMessage={tCommon("error")} retryLabel={tCommon("retry")}>
+              <CodePlayground language={language} courseId={courseId} />
+            </SectionErrorBoundary>
+          )}
 
           {/* Quiz */}
-          {showQuiz && (
-            <QuizEngine
-              quiz={axisQuiz}
-              axisNumber={selectedAxis}
-              onComplete={handleQuizComplete}
-            />
-          )}
+          <SectionErrorBoundary fallbackMessage={tCommon("error")} retryLabel={tCommon("retry")}>
+            {showQuiz && (
+              <QuizEngine
+                quiz={axisQuiz}
+                axisNumber={selectedAxis}
+                onComplete={handleQuizComplete}
+              />
+            )}
 
-          {/* Already-passed quiz banner */}
-          {axisQuiz && (quizAlreadyPassed || completedInSession.has(selectedAxis)) && (
-            <div className="rounded-xl bg-green-50 border border-green-200 p-4 text-sm text-green-800 font-medium">
-              ✓ {t("quiz.passed")}
-              {quizScores[selectedAxis] && (
-                <span className="ms-2 font-normal text-green-700">
-                  ({quizScores[selectedAxis].score}/{quizScores[selectedAxis].total})
-                </span>
-              )}
-            </div>
-          )}
+            {/* Already-passed quiz banner */}
+            {axisQuiz && (quizAlreadyPassed || completedInSession.has(selectedAxis)) && (
+              <div className="rounded-xl bg-green-50 border border-green-200 p-4 text-sm text-green-800 font-medium">
+                ✓ {t("quiz.passed")}
+                {quizScores[selectedAxis] && (
+                  <span className="ms-2 font-normal text-green-700">
+                    ({quizScores[selectedAxis].score}/{quizScores[selectedAxis].total})
+                  </span>
+                )}
+              </div>
+            )}
+          </SectionErrorBoundary>
 
           {/* Course completion banner */}
           {isCompleted && selectedAxis === 5 && (

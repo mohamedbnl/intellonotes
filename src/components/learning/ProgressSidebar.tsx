@@ -3,7 +3,6 @@
 import { useTranslations } from "next-intl";
 import { CheckCircle, Circle, Lock } from "lucide-react";
 import { cn } from "@/lib/utils/cn";
-import { AXIS_LABELS } from "@/lib/constants";
 
 interface AxisStatus {
   axisNumber: number;
@@ -89,7 +88,7 @@ function AxisItem({
 
       <div className="min-w-0">
         <p className={cn("font-medium leading-tight", isCurrent ? "text-[var(--color-primary-600)]" : "text-gray-800")}>
-          {t("axis", { number: axisNumber })} — {AXIS_LABELS[axisNumber]}
+          {t("axis", { number: axisNumber })} — {t(`axisNames.${axisNumber}` as Parameters<typeof t>[0])}
         </p>
         <p className="text-xs text-gray-400 mt-0.5">
           {lessonCount} {t("lessonsLabel")}

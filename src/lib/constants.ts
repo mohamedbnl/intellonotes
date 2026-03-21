@@ -9,6 +9,7 @@ export const SUPPORTED_LANGUAGES = [
 
 export const COURSE_LEVELS = ["beginner", "intermediate"] as const;
 
+/** @deprecated Use `course.axisNames` i18n keys instead (messages/fr.json, messages/ar.json) */
 export const AXIS_LABELS: Record<number, string> = {
   1: "Introduction",
   2: "Théorie",

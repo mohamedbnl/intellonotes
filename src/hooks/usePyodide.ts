@@ -1,11 +1,13 @@
 "use client";
 
-import { useRef, useState, useCallback } from "react";
+import { useRef, useState, useCallback, useEffect } from "react";
 
 interface PyodideResult {
   output: string;
   error: string | null;
 }
+
+const EXECUTION_TIMEOUT_MS = 30_000;
 
 /**
  * Lazily loads the Pyodide web worker on first call to runPython.
@@ -18,6 +20,15 @@ export function usePyodide() {
     Map<string, (result: PyodideResult) => void>
   >(new Map());
   const [isLoading, setIsLoading] = useState(false);
+
+  // Terminate worker on component unmount to prevent stale workers
+  useEffect(() => {
+    return () => {
+      workerRef.current?.terminate();
+      workerRef.current = null;
+      pendingRef.current.clear();
+    };
+  }, []);
 
   function getWorker(): Worker {
     if (!workerRef.current) {
@@ -53,7 +64,19 @@ export function usePyodide() {
     const id = crypto.randomUUID();
 
     return new Promise((resolve) => {
-      pendingRef.current.set(id, resolve);
+      const timeoutHandle = setTimeout(() => {
+        // Timed out — remove the pending callback, kill the worker, force fresh on next run
+        pendingRef.current.delete(id);
+        workerRef.current?.terminate();
+        workerRef.current = null;
+        setIsLoading(false);
+        resolve({ output: "", error: "Execution timed out (30s limit). Avoid infinite loops." });
+      }, EXECUTION_TIMEOUT_MS);
+
+      pendingRef.current.set(id, (result) => {
+        clearTimeout(timeoutHandle);
+        resolve(result);
+      });
       worker.postMessage({ id, code });
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps

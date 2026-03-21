@@ -98,15 +98,19 @@ export function QuizEngine({ quiz, axisNumber, onComplete }: QuizEngineProps) {
       {/* Questions */}
       <div className="space-y-4">
         {questions.map((q, i) => (
-          <QuizQuestionComponent
-            key={q.id}
-            question={q}
-            index={i}
-            answer={answers[q.id]}
-            onChange={(v) => setAnswer(q.id, v)}
-            feedback={result ? feedbackByQuestion[q.id] ?? false : null}
-            correctAnswer={correctAnswerByQuestion[q.id]}
-          />
+          <div key={q.id} className="space-y-1">
+            <p className="text-xs font-medium text-gray-400">
+              {t("question", { current: i + 1, total: questions.length })}
+            </p>
+            <QuizQuestionComponent
+              question={q}
+              index={i}
+              answer={answers[q.id]}
+              onChange={(v) => setAnswer(q.id, v)}
+              feedback={result ? feedbackByQuestion[q.id] ?? false : null}
+              correctAnswer={correctAnswerByQuestion[q.id]}
+            />
+          </div>
         ))}
       </div>
 
