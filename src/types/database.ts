@@ -65,6 +65,8 @@ export interface Database {
           price: number;
           status: CourseStatus;
           pdf_url: string | null;
+          objectives: string[];
+          prerequisites: string[];
           created_at: string;
           updated_at: string;
         };
@@ -78,6 +80,8 @@ export interface Database {
           price: number;
           status?: CourseStatus;
           pdf_url?: string | null;
+          objectives?: string[];
+          prerequisites?: string[];
           created_at?: string;
           updated_at?: string;
         };
@@ -91,6 +95,8 @@ export interface Database {
           price?: number;
           status?: CourseStatus;
           pdf_url?: string | null;
+          objectives?: string[];
+          prerequisites?: string[];
           updated_at?: string;
         };
       };
