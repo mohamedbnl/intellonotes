@@ -1,7 +1,7 @@
 "use client";
 
 import { useTranslations, useLocale } from "next-intl";
-import { Link, usePathname } from "@i18n/navigation";
+import { Link, usePathname, useRouter } from "@i18n/navigation";
 import { signOut } from "next-auth/react";
 import { useAuth } from "@/hooks/useAuth";
 import { Button } from "@/components/ui/Button";
@@ -10,13 +10,15 @@ export function Header() {
   const t = useTranslations("nav");
   const locale = useLocale();
   const pathname = usePathname();
+  const router = useRouter();
   const { user, role, isLoading } = useAuth();
 
   const otherLocale = locale === "fr" ? "ar" : "fr";
 
   async function handleLogout() {
     await signOut({ redirect: false });
-    window.location.href = "/";
+    router.refresh();
+    router.push("/");
   }
 
   return (

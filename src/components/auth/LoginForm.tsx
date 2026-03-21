@@ -43,6 +43,8 @@ export function LoginForm() {
       const session = await sessionRes.json();
       const role = session?.user?.role;
 
+      router.refresh();
+
       if (role === "admin") {
         router.push("/admin/payments");
       } else if (role === "professor") {

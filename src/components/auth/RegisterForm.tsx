@@ -48,7 +48,8 @@ export function RegisterForm() {
 
       // Auto sign-in after successful registration
       await signIn("credentials", { email, password, redirect: false });
-      router.push("/dashboard");
+      router.refresh();
+      router.push(role === "professor" ? "/" : "/dashboard");
     } finally {
       setIsLoading(false);
     }

@@ -37,10 +37,13 @@ export default async function CourseDetailPage({
     notFound();
   }
 
-  // Purchase status depends on session
+  // Purchase status depends on session — professors and admins cannot purchase
   const userId = session?.user?.id ?? null;
+  const userRole = session?.user?.role ?? null;
+  const isStudent = userRole === "student" || userRole === null; // guests treated as potential students
+
   let purchaseStatus: "pending" | "confirmed" | "rejected" | null = null;
-  if (userId) {
+  if (userId && isStudent) {
     const purchase = getPurchaseStatus(userId, courseId);
     purchaseStatus = purchase?.status ?? null;
   }
@@ -152,12 +155,14 @@ export default async function CourseDetailPage({
           <div className="sticky top-6 bg-white rounded-xl border border-gray-200 p-6 space-y-4">
             <p className="text-3xl font-bold text-gray-900">{course.price} Dh</p>
 
-            <PurchaseButton
-              courseId={courseId}
-              price={course.price}
-              purchaseStatus={purchaseStatus}
-              userId={userId}
-            />
+            {isStudent ? (
+              <PurchaseButton
+                courseId={courseId}
+                price={course.price}
+                purchaseStatus={purchaseStatus}
+                userId={userId}
+              />
+            ) : null}
 
             <div className="pt-4 border-t border-gray-100 space-y-3 text-sm">
               <div className="flex items-center justify-between">
