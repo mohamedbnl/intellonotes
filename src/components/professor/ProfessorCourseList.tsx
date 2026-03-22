@@ -10,6 +10,7 @@ interface CourseItem {
   level: CourseLevel;
   price: number;
   status: CourseStatus;
+  rejection_reason: string | null;
   updated_at: string;
 }
 

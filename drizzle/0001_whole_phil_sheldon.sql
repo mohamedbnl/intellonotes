@@ -1,0 +1,1 @@
+ALTER TABLE `courses` ADD `rejection_reason` text;

@@ -161,6 +161,60 @@
       "confirmed": "تم تأكيد الدفع",
       "rejected": "تم رفض الدفع"
     },
+    "courses": {
+      "title": "إدارة الدورات",
+      "all": "الكل",
+      "pending": "قيد المراجعة",
+      "approved": "مقبولة",
+      "rejected": "مرفوضة",
+      "suspended": "موقوفة",
+      "empty": "لا توجد دورات في هذه الفئة.",
+      "professor": "الأستاذ",
+      "submittedAt": "تاريخ التقديم: {date}",
+      "updatedAt": "آخر تعديل: {date}",
+      "reviewCourse": "مراجعة",
+      "approve": "قبول",
+      "reject": "رفض",
+      "suspend": "إيقاف",
+      "rejectReason": "سبب الرفض",
+      "rejectReasonPlaceholder": "أخبر الأستاذ بما يجب تصحيحه...",
+      "rejectReasonRequired": "سبب الرفض إلزامي.",
+      "suspendConfirm": "سيُزال هذا الدورة من الكتالوج. تأكيد؟",
+      "backToList": "العودة إلى القائمة",
+      "courseContent": "محتوى الدورة",
+      "metadata": "المعلومات العامة",
+      "description": "الوصف",
+      "level": "المستوى",
+      "language": "لغة البرمجة",
+      "price": "السعر",
+      "objectives": "الأهداف",
+      "prerequisites": "المتطلبات",
+      "axisLabel": "المحور {number}",
+      "lessonTitle": "عنوان الدرس",
+      "lessonContent": "المحتوى",
+      "quizQuestions": "أسئلة الاختبار",
+      "questionCount": "{count, plural, =0 {لا توجد أسئلة} one {سؤال واحد} two {سؤالان} few {# أسئلة} many {# سؤالاً} other {# سؤال}}",
+      "noLesson": "لا يوجد درس لهذا المحور.",
+      "noQuiz": "لا يوجد اختبار لهذا المحور.",
+      "pdfSection": "مستند PDF",
+      "pdfPreview": "عرض PDF",
+      "noPdf": "لا يوجد PDF مرفق.",
+      "rejectionReason": "سبب الرفض",
+      "status": {
+        "draft": "مسودة",
+        "pending": "قيد المراجعة",
+        "approved": "مقبول",
+        "rejected": "مرفوض",
+        "suspended": "موقوف"
+      },
+      "errors": {
+        "generic": "حدث خطأ. يرجى المحاولة مرة أخرى."
+      }
+    },
+    "nav": {
+      "payments": "المدفوعات",
+      "courses": "الدورات"
+    },
     "meta": {
       "title": "الإدارة — IntelloNotes"
     }
@@ -190,7 +244,8 @@
       },
       "deleteConfirm": "هل أنت متأكد من حذف هذه المسودة؟",
       "deleteConfirmAction": "حذف",
-      "updated": "تم التعديل في {date}"
+      "updated": "تم التعديل في {date}",
+      "rejectionReason": "سبب الرفض"
     },
     "courseForm": {
       "createTitle": "إنشاء دورة",

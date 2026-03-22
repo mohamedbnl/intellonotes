@@ -64,6 +64,7 @@ export const courses = sqliteTable(
       .notNull()
       .default("draft"),
     pdf_url: text("pdf_url"),
+    rejection_reason: text("rejection_reason"),
     // Stored as JSON string — parse/stringify automatically via mode: "json"
     objectives: text("objectives", { mode: "json" })
       .$type<string[]>()

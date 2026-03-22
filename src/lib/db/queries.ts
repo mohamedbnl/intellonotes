@@ -372,6 +372,7 @@ export function getProfessorCourses(professorId: string) {
       level: courses.level,
       price: courses.price,
       status: courses.status,
+      rejection_reason: courses.rejection_reason,
       updated_at: courses.updated_at,
     })
     .from(courses)
@@ -433,6 +434,105 @@ export function getLessonForAxis(courseId: string, axisNumber: number) {
       )
     )
     .get();
+}
+
+// ── Admin course queries ───────────────────────────────────────────────────────
+
+export function getCoursesForAdmin() {
+  const rows = db
+    .select({
+      id: courses.id,
+      title: courses.title,
+      language: courses.language,
+      level: courses.level,
+      price: courses.price,
+      status: courses.status,
+      rejection_reason: courses.rejection_reason,
+      created_at: courses.created_at,
+      updated_at: courses.updated_at,
+      professor_name: users.name,
+      professor_email: users.email,
+    })
+    .from(courses)
+    .leftJoin(users, eq(courses.professor_id, users.id))
+    .orderBy(desc(courses.updated_at))
+    .all();
+
+  return rows.map((r) => ({
+    id: r.id,
+    title: r.title,
+    language: r.language,
+    level: r.level,
+    price: r.price,
+    status: r.status,
+    rejection_reason: r.rejection_reason,
+    created_at: r.created_at,
+    updated_at: r.updated_at,
+    professor_name: r.professor_name ?? "",
+    professor_email: r.professor_email ?? "",
+  }));
+}
+
+export function getAdminCourseDetail(courseId: string) {
+  const row = db
+    .select({
+      id: courses.id,
+      title: courses.title,
+      description: courses.description,
+      language: courses.language,
+      level: courses.level,
+      price: courses.price,
+      status: courses.status,
+      rejection_reason: courses.rejection_reason,
+      pdf_url: courses.pdf_url,
+      objectives: courses.objectives,
+      prerequisites: courses.prerequisites,
+      created_at: courses.created_at,
+      updated_at: courses.updated_at,
+      professor_name: users.name,
+      professor_email: users.email,
+      professor_bio: users.bio,
+    })
+    .from(courses)
+    .leftJoin(users, eq(courses.professor_id, users.id))
+    .where(eq(courses.id, courseId))
+    .get();
+
+  if (!row) return null;
+
+  return {
+    id: row.id,
+    title: row.title,
+    description: row.description,
+    language: row.language,
+    level: row.level,
+    price: row.price,
+    status: row.status,
+    rejection_reason: row.rejection_reason,
+    pdf_url: row.pdf_url,
+    objectives: row.objectives ?? [],
+    prerequisites: row.prerequisites ?? [],
+    created_at: row.created_at,
+    updated_at: row.updated_at,
+    professor: row.professor_name
+      ? { name: row.professor_name, email: row.professor_email, bio: row.professor_bio }
+      : null,
+  };
+}
+
+export function updateCourseStatus(
+  courseId: string,
+  status: CourseStatus,
+  rejectionReason?: string | null
+) {
+  db.update(courses)
+    .set({
+      status,
+      rejection_reason: status === "approved" ? null : (rejectionReason ?? null),
+      updated_at: new Date().toISOString(),
+    })
+    .where(eq(courses.id, courseId))
+    .run();
 }
 
 // ── Admin purchase mutations ───────────────────────────────────────────────────

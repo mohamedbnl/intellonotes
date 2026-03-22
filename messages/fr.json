@@ -161,6 +161,60 @@
       "confirmed": "Paiement confirmé",
       "rejected": "Paiement rejeté"
     },
+    "courses": {
+      "title": "Gestion des cours",
+      "all": "Tous",
+      "pending": "En attente",
+      "approved": "Approuvés",
+      "rejected": "Refusés",
+      "suspended": "Suspendus",
+      "empty": "Aucun cours dans cette catégorie.",
+      "professor": "Professeur",
+      "submittedAt": "Soumis le {date}",
+      "updatedAt": "Mis à jour le {date}",
+      "reviewCourse": "Examiner",
+      "approve": "Approuver",
+      "reject": "Refuser",
+      "suspend": "Suspendre",
+      "rejectReason": "Motif du refus",
+      "rejectReasonPlaceholder": "Indiquez au professeur ce qui doit être corrigé...",
+      "rejectReasonRequired": "Le motif du refus est obligatoire.",
+      "suspendConfirm": "Ce cours sera retiré du catalogue. Confirmer ?",
+      "backToList": "Retour à la liste",
+      "courseContent": "Contenu du cours",
+      "metadata": "Informations générales",
+      "description": "Description",
+      "level": "Niveau",
+      "language": "Langage",
+      "price": "Prix",
+      "objectives": "Objectifs",
+      "prerequisites": "Prérequis",
+      "axisLabel": "Axe {number}",
+      "lessonTitle": "Titre de la leçon",
+      "lessonContent": "Contenu",
+      "quizQuestions": "Questions du quiz",
+      "questionCount": "{count, plural, =0 {Aucune question} one {# question} other {# questions}}",
+      "noLesson": "Aucune leçon pour cet axe.",
+      "noQuiz": "Aucun quiz pour cet axe.",
+      "pdfSection": "Document PDF",
+      "pdfPreview": "Voir le PDF",
+      "noPdf": "Aucun PDF attaché.",
+      "rejectionReason": "Motif du refus",
+      "status": {
+        "draft": "Brouillon",
+        "pending": "En attente",
+        "approved": "Approuvé",
+        "rejected": "Refusé",
+        "suspended": "Suspendu"
+      },
+      "errors": {
+        "generic": "Une erreur est survenue. Veuillez réessayer."
+      }
+    },
+    "nav": {
+      "payments": "Paiements",
+      "courses": "Cours"
+    },
     "meta": {
       "title": "Administration — IntelloNotes"
     }
@@ -190,7 +244,8 @@
       },
       "deleteConfirm": "Êtes-vous sûr de vouloir supprimer ce brouillon ?",
       "deleteConfirmAction": "Supprimer",
-      "updated": "Modifié le {date}"
+      "updated": "Modifié le {date}",
+      "rejectionReason": "Motif du refus"
     },
     "courseForm": {
       "createTitle": "Créer un cours",

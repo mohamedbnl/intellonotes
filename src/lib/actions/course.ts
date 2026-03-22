@@ -105,7 +105,7 @@ export async function submitForReview(
 
   try {
     db.update(courses)
-      .set({ status: "pending", updated_at: new Date().toISOString() })
+      .set({ status: "pending", rejection_reason: null, updated_at: new Date().toISOString() })
       .where(eq(courses.id, courseId))
       .run();
   } catch {
