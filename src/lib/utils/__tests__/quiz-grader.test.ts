@@ -103,4 +103,59 @@ describe("gradeQuiz", () => {
     expect(result.correct).toBe(0);
     expect(result.details[0].correct).toBe(false);
   });
+
+  it("grades case-insensitive fill-blank correctly", () => {
+    const question: QuizQuestion = {
+      id: "q4",
+      type: "fill_blank",
+      text: "The keyword is {{BLANK}}.",
+      correct_answers: ["def"],
+      case_sensitive: false,
+    };
+    const result = gradeQuiz([question], [{ questionId: "q4", answer: "DEF" }]);
+    expect(result.correct).toBe(1);
+  });
+
+  it("accepts alternative fill-blank answers", () => {
+    const question: QuizQuestion = {
+      id: "q5",
+      type: "fill_blank",
+      text: "Main function in C is {{BLANK}}.",
+      correct_answers: ["main", "main()"],
+      case_sensitive: true,
+    };
+    const result = gradeQuiz([question], [{ questionId: "q5", answer: "main()" }]);
+    expect(result.correct).toBe(1);
+  });
+
+  it("returns total and score for mixed questions", () => {
+    const questions = [mcqQuestion, trueFalseQuestion, fillBlankQuestion];
+    const answers = [
+      { questionId: "q1", answer: 1 },     // correct
+      { questionId: "q2", answer: false },  // wrong
+      { questionId: "q3", answer: "def" },  // correct
+    ];
+    const result = gradeQuiz(questions, answers);
+    expect(result.total).toBe(3);
+    expect(result.correct).toBe(2);
+    expect(result.score).toBeCloseTo(66.67, 0);
+  });
+
+  it("passes with exactly 70% on axis 5 threshold", () => {
+    // 7 out of 10 = 70%
+    const questions: QuizQuestion[] = Array.from({ length: 10 }, (_, i) => ({
+      id: `mq${i}`,
+      type: "mcq" as const,
+      text: `Q${i}`,
+      options: ["A", "B"],
+      correct_index: 0,
+    }));
+    const answers = questions.map((q, i) => ({
+      questionId: q.id,
+      answer: i < 7 ? 0 : 1, // first 7 correct, last 3 wrong
+    }));
+    const result = gradeQuiz(questions, answers, 70);
+    expect(result.score).toBe(70);
+    expect(result.passed).toBe(true);
+  });
 });

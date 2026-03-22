@@ -29,4 +29,16 @@ describe("calculateCommission", () => {
       ).toBe(price);
     });
   });
+
+  it("handles zero amount", () => {
+    const result = calculateCommission(0);
+    expect(result.professorCommission).toBe(0);
+    expect(result.platformCommission).toBe(0);
+  });
+
+  it("professor always gets 70%", () => {
+    const result = calculateCommission(100);
+    expect(result.professorCommission).toBe(70);
+    expect(result.platformCommission).toBe(30);
+  });
 });
