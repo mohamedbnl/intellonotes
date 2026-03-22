@@ -1,3 +1,5 @@
+"use client";
+
 import { useTranslations } from "next-intl";
 import type { QuizQuestion, MCQQuestion, TrueFalseQuestion, FillBlankQuestion } from "@/types/quiz";
 import { cn } from "@/lib/utils/cn";

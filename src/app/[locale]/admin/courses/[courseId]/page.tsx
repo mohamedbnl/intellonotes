@@ -36,10 +36,10 @@ export default async function AdminCourseReviewPage({
   const { locale, courseId } = await params;
   setRequestLocale(locale);
 
-  const [t, tCourse, tEditor, session] = await Promise.all([
+  const [t, tCourse, tCatalog, session] = await Promise.all([
     getTranslations("admin.courses"),
     getTranslations("course"),
-    getTranslations("professor.courseEditor"),
+    getTranslations("catalog"),
     auth(),
   ]);
 
@@ -110,8 +110,7 @@ export default async function AdminCourseReviewPage({
             {LANGUAGE_DISPLAY_NAMES[course.language]}
           </Badge>
           <Badge className="bg-gray-100 text-gray-600">
-            {tEditor("lessonTitle").replace("Titre de la leçon", "")}
-            {course.level}
+            {course.level === "beginner" ? tCatalog("beginner") : tCatalog("intermediate")}
           </Badge>
           <span className="font-bold text-gray-900">{course.price} Dh</span>
         </div>

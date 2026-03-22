@@ -1,4 +1,4 @@
-import { eq, and, like, inArray, asc, desc } from "drizzle-orm";
+import { eq, ne, and, like, inArray, asc, desc } from "drizzle-orm";
 import { db } from "./index";
 import {
   users,
@@ -455,6 +455,7 @@ export function getCoursesForAdmin() {
     })
     .from(courses)
     .leftJoin(users, eq(courses.professor_id, users.id))
+    .where(ne(courses.status, "draft"))
     .orderBy(desc(courses.updated_at))
     .all();
 
