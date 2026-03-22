@@ -11,6 +11,7 @@ export function AdminSubNav() {
   const tabs = [
     { href: "/admin/courses", label: t("courses") },
     { href: "/admin/payments", label: t("payments") },
+    { href: "/admin/withdrawals", label: t("withdrawals") },
   ];
 
   return (

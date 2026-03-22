@@ -1,7 +1,10 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { eq } from "drizzle-orm";
 import { auth } from "@/lib/auth";
+import { db } from "@/lib/db/index";
+import { withdrawals } from "@/lib/db/schema";
 import { updatePurchaseStatus, updateCourseStatus, getAdminCourseDetail } from "@/lib/db/queries";
 
 export async function confirmPurchase(
@@ -108,5 +111,65 @@ export async function suspendCourse(
 
   revalidatePath(`/${locale}/admin/courses`);
   revalidatePath(`/${locale}`);
+  return {};
+}
+
+export async function processWithdrawal(
+  withdrawalId: string,
+  locale: string
+): Promise<{ error?: string }> {
+  const session = await auth();
+  if (!session?.user) return { error: "Unauthorized" };
+  if (session.user.role !== "admin") return { error: "Forbidden" };
+
+  const withdrawal = db
+    .select({ status: withdrawals.status })
+    .from(withdrawals)
+    .where(eq(withdrawals.id, withdrawalId))
+    .get();
+
+  if (!withdrawal) return { error: "notFound" };
+  if (withdrawal.status !== "pending") return { error: "invalidStatus" };
+
+  try {
+    db.update(withdrawals)
+      .set({ status: "processed", processed_at: new Date().toISOString() })
+      .where(eq(withdrawals.id, withdrawalId))
+      .run();
+  } catch {
+    return { error: "updateFailed" };
+  }
+
+  revalidatePath(`/${locale}/admin/withdrawals`);
+  return {};
+}
+
+export async function rejectWithdrawal(
+  withdrawalId: string,
+  locale: string
+): Promise<{ error?: string }> {
+  const session = await auth();
+  if (!session?.user) return { error: "Unauthorized" };
+  if (session.user.role !== "admin") return { error: "Forbidden" };
+
+  const withdrawal = db
+    .select({ status: withdrawals.status })
+    .from(withdrawals)
+    .where(eq(withdrawals.id, withdrawalId))
+    .get();
+
+  if (!withdrawal) return { error: "notFound" };
+  if (withdrawal.status !== "pending") return { error: "invalidStatus" };
+
+  try {
+    db.update(withdrawals)
+      .set({ status: "rejected", processed_at: new Date().toISOString() })
+      .where(eq(withdrawals.id, withdrawalId))
+      .run();
+  } catch {
+    return { error: "updateFailed" };
+  }
+
+  revalidatePath(`/${locale}/admin/withdrawals`);
   return {};
 }

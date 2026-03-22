@@ -627,6 +627,34 @@ export function updateCourseStatus(
     .run();
 }
 
+// ── Admin withdrawal queries ──────────────────────────────────────────────────
+
+export function getPendingWithdrawals() {
+  const rows = db
+    .select({
+      id: withdrawals.id,
+      amount: withdrawals.amount,
+      status: withdrawals.status,
+      requested_at: withdrawals.requested_at,
+      professor_name: users.name,
+      professor_email: users.email,
+    })
+    .from(withdrawals)
+    .leftJoin(users, eq(withdrawals.professor_id, users.id))
+    .where(eq(withdrawals.status, "pending"))
+    .orderBy(asc(withdrawals.requested_at))
+    .all();
+
+  return rows.map((r) => ({
+    id: r.id,
+    amount: r.amount,
+    status: r.status,
+    requested_at: r.requested_at,
+    professor_name: r.professor_name ?? "",
+    professor_email: r.professor_email ?? "",
+  }));
+}
+
 // ── Admin purchase mutations ───────────────────────────────────────────────────
 
 export function updatePurchaseStatus(

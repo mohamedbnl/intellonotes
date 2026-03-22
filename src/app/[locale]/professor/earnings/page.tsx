@@ -8,6 +8,7 @@ import {
   getProfessorWithdrawals,
 } from "@/lib/db/queries";
 import { MIN_WITHDRAWAL_AMOUNT } from "@/lib/constants";
+import { WithdrawalForm } from "@/components/professor/WithdrawalForm";
 
 export async function generateMetadata({
   params,
@@ -88,6 +89,11 @@ export default async function ProfessorEarningsPage({
         <p className="text-xs text-purple-500 mt-1">
           {t("minWithdrawal", { amount: MIN_WITHDRAWAL_AMOUNT })}
         </p>
+      </div>
+
+      {/* Withdrawal request */}
+      <div className="mb-10">
+        <WithdrawalForm availableBalance={earnings.availableBalance} />
       </div>
 
       {/* Transaction history */}

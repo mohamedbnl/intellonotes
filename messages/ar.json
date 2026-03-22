@@ -212,9 +212,21 @@
         "generic": "حدث خطأ. يرجى المحاولة مرة أخرى."
       }
     },
+    "withdrawals": {
+      "title": "طلبات السحب",
+      "professor": "الأستاذ",
+      "email": "البريد الإلكتروني",
+      "amount": "المبلغ",
+      "date": "التاريخ",
+      "actions": "الإجراءات",
+      "confirm": "تأكيد",
+      "reject": "رفض",
+      "empty": "لا توجد طلبات سحب معلقة."
+    },
     "nav": {
       "payments": "المدفوعات",
-      "courses": "الدورات"
+      "courses": "الدورات",
+      "withdrawals": "السحوبات"
     },
     "meta": {
       "title": "الإدارة — IntelloNotes"
@@ -270,7 +282,14 @@
         "pending": "قيد الانتظار",
         "processed": "تمت المعالجة",
         "rejected": "مرفوض"
-      }
+      },
+      "requestWithdrawal": "طلب سحب",
+      "submitWithdrawal": "إرسال الطلب",
+      "withdrawalBelowMin": "الحد الأدنى للسحب هو {amount} درهم.",
+      "withdrawalExceedsBalance": "المبلغ يتجاوز رصيدك المتاح.",
+      "withdrawalError": "حدث خطأ. يرجى المحاولة مرة أخرى.",
+      "withdrawalSuccess": "تم إرسال طلب السحب بنجاح.",
+      "withdrawalNotAvailable": "الحد الأدنى للسحب هو {amount} درهم."
     },
     "courseForm": {
       "createTitle": "إنشاء دورة",

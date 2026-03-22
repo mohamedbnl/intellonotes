@@ -212,9 +212,21 @@
         "generic": "Une erreur est survenue. Veuillez réessayer."
       }
     },
+    "withdrawals": {
+      "title": "Demandes de retrait",
+      "professor": "Professeur",
+      "email": "E-mail",
+      "amount": "Montant",
+      "date": "Date",
+      "actions": "Actions",
+      "confirm": "Valider",
+      "reject": "Refuser",
+      "empty": "Aucune demande de retrait en attente."
+    },
     "nav": {
       "payments": "Paiements",
-      "courses": "Cours"
+      "courses": "Cours",
+      "withdrawals": "Retraits"
     },
     "meta": {
       "title": "Administration — IntelloNotes"
@@ -270,7 +282,14 @@
         "pending": "En attente",
         "processed": "Traité",
         "rejected": "Refusé"
-      }
+      },
+      "requestWithdrawal": "Demander un retrait",
+      "submitWithdrawal": "Envoyer la demande",
+      "withdrawalBelowMin": "Le montant minimum est de {amount} Dh.",
+      "withdrawalExceedsBalance": "Le montant dépasse votre solde disponible.",
+      "withdrawalError": "Une erreur est survenue. Veuillez réessayer.",
+      "withdrawalSuccess": "Votre demande de retrait a été envoyée.",
+      "withdrawalNotAvailable": "Le solde minimum pour un retrait est de {amount} Dh."
     },
     "courseForm": {
       "createTitle": "Créer un cours",
